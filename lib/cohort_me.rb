@@ -10,6 +10,7 @@ module CohortMe
     activation_table_name = ActiveModel::Naming.plural(activation_class)
     activation_user_id = options[:activation_user_id] || "user_id"
     activation_conditions = options[:activation_conditions] 
+    activation_field_date = options[:activation_field_date]
 
     activity_class = options[:activity_class] || activation_class
     activity_table_name = ActiveModel::Naming.plural(activity_class)
@@ -34,7 +35,7 @@ module CohortMe
       time_conversion = 1.month.seconds
     end
 
-    cohort_query = activation_class.select("#{activation_table_name}.#{activation_user_id}, MIN(#{activation_table_name}.created_at) as cohort_date").group("#{activation_user_id}").where("created_at > ?", start_from)
+    cohort_query = activation_class.select("#{activation_table_name}.#{activation_user_id}, MIN(#{activation_table_name}.#{activation_field_date}) as cohort_date").group("#{activation_user_id}").where("#{activation_field_date} > ?", start_from)
 
     if activation_conditions
       cohort_query = cohort_query.where(activation_conditions)
