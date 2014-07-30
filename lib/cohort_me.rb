@@ -10,7 +10,7 @@ module CohortMe
     activation_table_name = ActiveModel::Naming.plural(activation_class)
     activation_user_id = options[:activation_user_id] || "user_id"
     activation_conditions = options[:activation_conditions] 
-    activation_field_date = options[:activation_field_date]
+    activation_field_date = options[:activation_field_date] || "created_at"
 
     activity_class = options[:activity_class] || activation_class
     activity_table_name = ActiveModel::Naming.plural(activity_class)
